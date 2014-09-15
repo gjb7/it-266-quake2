@@ -435,6 +435,10 @@ static void Grenade_Explode (edict_t *ent)
 
 static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
+	int newDamage;
+	float newRadius;
+	vec3_t newAimDir;
+	
 	if (other == ent->owner)
 		return;
 
@@ -457,6 +461,21 @@ static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurfa
 		{
 			gi.sound (ent, CHAN_VOICE, gi.soundindex ("weapons/grenlb1b.wav"), 1, ATTN_NORM, 0);
 		}
+
+		newDamage = ent->dmg - .0;
+		if (newDamage <= 0) {
+			return;
+		}
+
+		newRadius = ent->dmg_radius - 40.0;
+		if (newRadius <= 0) {
+			return;
+		}
+		
+		VectorSet(newAimDir, crandom(), crandom(), crandom());
+
+		fire_grenade(ent->owner, ent->s.origin, newAimDir, newDamage, 600, 2.5, newRadius);
+
 		return;
 	}
 
