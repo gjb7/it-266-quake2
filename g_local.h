@@ -481,6 +481,9 @@ extern	int	body_armor_index;
 #define MOD_TARGET_BLASTER	33
 #define MOD_FRIENDLY_FIRE	0x8000000
 
+// Mod stuff
+#define MOD_POTION			100
+
 extern	int	meansOfDeath;
 
 
@@ -1091,8 +1094,5 @@ struct edict_s
 	// common data blocks
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
-
-	// Mod stuff
-	int subtype;
 };
 
