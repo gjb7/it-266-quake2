@@ -900,41 +900,10 @@ void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, f
 
 // Mod stuff
 
-void fire_potion (edict_t *self, vec3_t start, vec3_t aimdir, int speed, float damage_radius)
-{
-	edict_t	*potion;
-	vec3_t	dir;
-	vec3_t	forward, right, up;
+void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf) {
+	vec3_t		origin;
+	int			mod = MOD_POTION;
 
-	vectoangles (aimdir, dir);
-	AngleVectors (dir, forward, right, up);
-
-	potion = G_Spawn();
-	VectorCopy (start, potion->s.origin);
-	VectorScale (aimdir, speed, potion->velocity);
-	VectorMA (potion->velocity, 200 + crandom() * 10.0, up, potion->velocity);
-	VectorMA (potion->velocity, crandom() * 10.0, right, potion->velocity);
-	VectorSet (potion->avelocity, 300, 300, 300);
-	potion->movetype = MOVETYPE_BOUNCE;
-	potion->clipmask = MASK_SHOT;
-	potion->solid = SOLID_BBOX;
-	potion->s.effects |= EF_GRENADE;
-	VectorClear (potion->mins);
-	VectorClear (potion->maxs);
-	potion->s.modelindex = gi.modelindex ("models/objects/grenade2/tris.md2");
-	potion->owner = self;
-	potion->touch = potion_explode;
-	potion->dmg = 0.0;
-	potion->dmg_radius = damage_radius;
-	potion->classname = "potion";
-	potion->s.sound = gi.soundindex("weapons/hgrenc1b.wav");
-
-	gi.sound (self, CHAN_WEAPON, gi.soundindex ("weapons/hgrent1a.wav"), 1, ATTN_NORM, 0);
-	gi.linkentity (potion);
-}
-
-static void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf)
-{
 	if (other == ent->owner)
 		return;
 
@@ -944,15 +913,17 @@ static void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurf
 		return;
 	}
 
-	vec3_t		origin;
-	int			mod;
-	mod = MOD_POTION;
-
 	if (ent->owner->client)
 		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
 
 	// TODO: Handle different types of potions here.
 //	T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
+	switch (ent->spawnflags) {
+		case POTION_TYPE_INSTANT_DAMAGE:
+			T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
+
+			break;
+	}
 
 	VectorMA (ent->s.origin, -0.02, ent->velocity, origin);
 	gi.WriteByte (svc_temp_entity);
@@ -969,3 +940,44 @@ static void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurf
 
 	G_FreeEdict (ent);
 }
+
+void fire_potion (edict_t *self, vec3_t start, vec3_t aimdir, int speed, float damage_radius, int potion_type)
+{
+	edict_t	*potion;
+	vec3_t	dir;
+	vec3_t	forward, right, up;
+
+	vectoangles (aimdir, dir);
+	AngleVectors (dir, forward, right, up);
+
+	potion = G_Spawn();
+	VectorCopy (start, potion->s.origin);
+	VectorScale (aimdir, speed, potion->velocity);
+//	VectorMA (potion->velocity, 200 + crandom() * 10.0, up, potion->velocity);
+//	VectorMA (potion->velocity, crandom() * 10.0, right, potion->velocity);
+	VectorSet (potion->avelocity, 300, 300, 300);
+	potion->movetype = MOVETYPE_FLYMISSILE;
+	potion->clipmask = MASK_SHOT;
+	potion->solid = SOLID_BBOX;
+	potion->s.effects |= EF_GRENADE;
+	VectorClear (potion->mins);
+	VectorClear (potion->maxs);
+	potion->s.modelindex = gi.modelindex ("models/objects/grenade2/tris.md2");
+	potion->owner = self;
+	potion->touch = potion_explode;
+	potion->dmg = 0.0;
+	potion->dmg_radius = damage_radius;
+	potion->classname = "potion";
+	potion->s.sound = gi.soundindex("weapons/hgrenc1b.wav");
+	potion->spawnflags = potion_type;
+
+	switch (potion_type) {
+		case POTION_TYPE_INSTANT_DAMAGE:
+			potion->dmg = 25.0;
+			break;
+	}
+
+	gi.sound (self, CHAN_WEAPON, gi.soundindex ("weapons/hgrent1a.wav"), 1, ATTN_NORM, 0);
+	gi.linkentity (potion);
+}
+
