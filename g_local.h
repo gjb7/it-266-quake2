@@ -1095,9 +1095,25 @@ struct edict_s
 	// common data blocks
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
+
+	
+	int         statusEffects;
+	int         statusEffectsCooldown;
+	int         statusEffectsCooldownStep;
 };
 
 // Mod stuff
+
+enum {
+	Status_Effect_Speed = 1 << 1,
+	Status_Effect_Slowness = 1 << 2,
+	Status_Effect_Strength = 1 << 3,
+	Status_Effect_Jump_Boost = 1 << 4,
+	Status_Effect_Regeneration = 1 << 5,
+	Status_Effect_Resistance = 1 << 6,
+	Status_Effect_Weakness = 1 << 7,
+	Status_Effect_Poison = 1 << 8
+};
 
 #define POTION_TYPE_SPEED 1
 #define POTION_TYPE_SLOWNESS 2
