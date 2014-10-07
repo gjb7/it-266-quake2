@@ -16,6 +16,7 @@ void Weapon_Grenade (edict_t *ent);
 void Weapon_GrenadeLauncher (edict_t *ent);
 void Weapon_Railgun (edict_t *ent);
 void Weapon_BFG (edict_t *ent);
+void Weapon_Potion_Instant_Damage(edict_t *ent);
 
 gitem_armor_t jacketarmor_info	= { 25,  50, .30, .00, ARMOR_JACKET};
 gitem_armor_t combatarmor_info	= { 50, 100, .60, .30, ARMOR_COMBAT};
@@ -482,7 +483,7 @@ qboolean Pickup_Ammo (edict_t *ent, edict_t *other)
 
 	if (weapon && !oldcount)
 	{
-		if (other->client->pers.weapon != ent->item && ( !deathmatch->value || other->client->pers.weapon == FindItem("blaster") ) )
+		if (other->client->pers.weapon != ent->item && ( !deathmatch->value || other->client->pers.weapon == FindItem("Instant Damage Potion") ) )
 			other->client->newweapon = ent->item;
 	}
 
@@ -1270,25 +1271,46 @@ gitem_t	itemlist[] =
 always owned, never in the world
 */
 	{
-		"weapon_blaster", 
+		"weapon_potion_instant_damage",
 		NULL,
 		Use_Weapon,
 		NULL,
-		Weapon_Blaster,
+		Weapon_Potion_Instant_Damage,
 		"misc/w_pkup.wav",
-		NULL, 0,
-		"models/weapons/v_blast/tris.md2",
-/* icon */		"w_blaster",
-/* pickup */	"Blaster",
-		0,
-		0,
-		NULL,
-		IT_WEAPON|IT_STAY_COOP,
-		WEAP_BLASTER,
 		NULL,
 		0,
-/* precache */ "weapons/blastf1a.wav misc/lasfly.wav"
+		"models/weapons/v_handgr/tris.md2",
+/* icon */		"a_grenades",
+/* pickup */	"Instant Damage Potion",
+/* width */		3,
+		1,
+		"grenades",
+		IT_AMMO|IT_WEAPON,
+		WEAP_GRENADES,
+		NULL,
+		AMMO_GRENADES,
+/* precache */ "weapons/hgrent1a.wav weapons/hgrena1b.wav weapons/hgrenc1b.wav weapons/hgrenb1a.wav weapons/hgrenb2a.wav "
 	},
+//	{
+//		"weapon_blaster", 
+//		NULL,
+//		Use_Weapon,
+//		NULL,
+//		Weapon_Blaster,
+//		"misc/w_pkup.wav",
+//		NULL, 0,
+//		"models/weapons/v_blast/tris.md2",
+///* icon */		"w_blaster",
+///* pickup */	"Blaster",
+//		0,
+//		0,
+//		NULL,
+//		IT_WEAPON|IT_STAY_COOP,
+//		WEAP_BLASTER,
+//		NULL,
+//		0,
+///* precache */ "weapons/blastf1a.wav misc/lasfly.wav"
+//	},
 
 /*QUAKED weapon_shotgun (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
@@ -1387,8 +1409,8 @@ always owned, never in the world
 	{
 		"ammo_grenades",
 		Pickup_Ammo,
-		Use_Weapon,
-		Drop_Ammo,
+		NULL,
+		NULL,
 		Weapon_Grenade,
 		"misc/am_pkup.wav",
 		"models/items/ammo/grenades/medium/tris.md2", 0,
@@ -1398,7 +1420,7 @@ always owned, never in the world
 /* width */		3,
 		5,
 		"grenades",
-		IT_AMMO|IT_WEAPON,
+		IT_AMMO,
 		WEAP_GRENADES,
 		NULL,
 		AMMO_GRENADES,
