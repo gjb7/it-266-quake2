@@ -591,9 +591,10 @@ void InitClientPersistant (gclient_t *client)
 
 	memset (&client->pers, 0, sizeof(client->pers));
 
-	item = FindItem("Blaster");
+	item = FindItem("Instant Damage Potion");
 	client->pers.selected_item = ITEM_INDEX(item);
 	client->pers.inventory[client->pers.selected_item] = 1;
+	client->pers.inventory[ITEM_INDEX(FindItem("grenades"))] = 10;
 
 	client->pers.weapon = item;
 
