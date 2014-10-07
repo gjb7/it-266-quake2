@@ -1558,8 +1558,42 @@ void Weapon_Potion (edict_t *ent, int potion_type)
 	}
 }
 
+void Weapon_Potion_Speed (edict_t *e) {
+	Weapon_Potion(e, POTION_TYPE_SPEED);
+}
+
+void Weapon_Potion_Slowness (edict_t *e) {
+	Weapon_Potion(e, POTION_TYPE_SLOWNESS);
+}
+
+void Weapon_Potion_Strength (edict_t *e) {
+	Weapon_Potion(e, POTION_TYPE_STRENGTH);
+}
+
+void Weapon_Potion_Instant_Health (edict_t *e) {
+	Weapon_Potion(e, POTION_TYPE_INSTANT_HEALTH);
+}
+
 void Weapon_Potion_Instant_Damage (edict_t *e) {
 	Weapon_Potion(e, POTION_TYPE_INSTANT_DAMAGE);
 }
 
+void Weapon_Potion_Jump_Boost (edict_t *e) {
+	Weapon_Potion(e, POTION_TYPE_JUMP_BOOST);
+}
 
+void Weapon_Potion_Regeneration (edict_t *e) {
+	Weapon_Potion(e, POTION_TYPE_REGENERATION);
+}
+
+void Weapon_Potion_Resistance (edict_t *e) {
+	Weapon_Potion(e, POTION_TYPE_RESISTANCE);
+}
+
+void Weapon_Potion_Weakness (edict_t *e) {
+	Weapon_Potion(e, POTION_TYPE_WEAKNESS);
+}
+
+void Weapon_Potion_Poison (edict_t *e) {
+	Weapon_Potion(e, POTION_TYPE_POISON);
+}
