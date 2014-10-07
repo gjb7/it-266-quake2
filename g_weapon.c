@@ -972,8 +972,27 @@ void fire_potion (edict_t *self, vec3_t start, vec3_t aimdir, int speed, float d
 	potion->spawnflags = potion_type;
 
 	switch (potion_type) {
+		case POTION_TYPE_SPEED:
+			break;
+		case POTION_TYPE_SLOWNESS:
+			break;
+		case POTION_TYPE_STRENGTH:
+			break;
+		case POTION_TYPE_INSTANT_HEALTH:
+			potion->dmg = -25.0;
+			break;
 		case POTION_TYPE_INSTANT_DAMAGE:
 			potion->dmg = 25.0;
+			break;
+		case POTION_TYPE_JUMP_BOOST:
+			break;
+		case POTION_TYPE_REGENERATION:
+			break;
+		case POTION_TYPE_RESISTANCE:
+			break;
+		case POTION_TYPE_WEAKNESS:
+			break;
+		case POTION_TYPE_POISON:
 			break;
 	}
 
