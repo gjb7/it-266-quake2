@@ -718,6 +718,7 @@ void fire_grenade2 (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int 
 void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius, int radius_damage);
 void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick);
 void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius);
+void fire_potion (edict_t *self, vec3_t start, vec3_t aimdir, int speed, float damage_radius, int potion_type);
 
 //
 // g_ptrail.c
@@ -1095,4 +1096,17 @@ struct edict_s
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
 };
+
+// Mod stuff
+
+#define POTION_TYPE_SPEED 1
+#define POTION_TYPE_SLOWNESS 2
+#define POTION_TYPE_STRENGTH 3
+#define POTION_TYPE_INSTANT_HEALTH 4
+#define POTION_TYPE_INSTANT_DAMAGE 5
+#define POTION_TYPE_JUMP_BOOST 6
+#define POTION_TYPE_REGENERATION 7
+#define POTION_TYPE_RESISTANCE 8
+#define POTION_TYPE_WEAKNESS 9
+#define POTION_TYPE_POISON 10
 
