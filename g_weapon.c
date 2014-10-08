@@ -920,7 +920,7 @@ void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *
 //	T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
 	switch (ent->spawnflags) {
 		case POTION_TYPE_INSTANT_DAMAGE:
-			T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
+			T_RadiusDamage(ent, ent->owner, 25.0, ent->enemy, ent->dmg_radius, mod);
 
 			break;
 	}
@@ -970,31 +970,6 @@ void fire_potion (edict_t *self, vec3_t start, vec3_t aimdir, int speed, float d
 	potion->classname = "potion";
 	potion->s.sound = gi.soundindex("weapons/hgrenc1b.wav");
 	potion->spawnflags = potion_type;
-
-	switch (potion_type) {
-		case POTION_TYPE_SPEED:
-			break;
-		case POTION_TYPE_SLOWNESS:
-			break;
-		case POTION_TYPE_STRENGTH:
-			break;
-		case POTION_TYPE_INSTANT_HEALTH:
-			potion->dmg = -25.0;
-			break;
-		case POTION_TYPE_INSTANT_DAMAGE:
-			potion->dmg = 25.0;
-			break;
-		case POTION_TYPE_JUMP_BOOST:
-			break;
-		case POTION_TYPE_REGENERATION:
-			break;
-		case POTION_TYPE_RESISTANCE:
-			break;
-		case POTION_TYPE_WEAKNESS:
-			break;
-		case POTION_TYPE_POISON:
-			break;
-	}
 
 	gi.sound (self, CHAN_WEAPON, gi.soundindex ("weapons/hgrent1a.wav"), 1, ATTN_NORM, 0);
 	gi.linkentity (potion);
