@@ -900,6 +900,15 @@ void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, f
 
 // Mod stuff
 
+int potion_type_to_status_effect(int potion_type) {
+	switch (potion_type) {
+		case POTION_TYPE_SPEED:
+			return Status_Effect_Speed;
+	}
+
+	return 0;
+}
+
 void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf) {
 	vec3_t		origin;
 	int			mod = MOD_POTION;
@@ -916,8 +925,6 @@ void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *
 	if (ent->owner->client)
 		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
 
-	// TODO: Handle different types of potions here.
-//	T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
 	switch (ent->spawnflags) {
 		case POTION_TYPE_INSTANT_HEALTH:
 			T_RadiusDamageNoKnockback(ent, ent->owner, -25.0, ent->enemy, ent->dmg_radius, mod);
@@ -935,7 +942,7 @@ void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *
 		case POTION_TYPE_RESISTANCE:
 		case POTION_TYPE_WEAKNESS:
 		case POTION_TYPE_POISON:
-			T_ApplyStatusEffect(ent, ent->owner, ent->dmg_radius, ent->enemy, ent->spawnflags);
+			T_ApplyStatusEffect(ent, ent->owner, ent->dmg_radius, ent->enemy, potion_type_to_status_effect(ent->spawnflags));
 
 			break;
 	}
