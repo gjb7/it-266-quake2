@@ -406,6 +406,18 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 	if (targ->flags & FL_NO_KNOCKBACK)
 		knockback = 0;
 
+	if ((targ->statusEffects & Status_Effect_Weakness) == Status_Effect_Weakness) {
+		damage *= 2;
+	}
+
+	if ((targ->statusEffects & Status_Effect_Resistance) == Status_Effect_Resistance) {
+		damage /= 2;
+	}
+
+	if ((attacker->statusEffects & Status_Effect_Strength) == Status_Effect_Strength) {
+		damage *= 2;
+	}
+
 // figure momentum add
 	if (!(dflags & DAMAGE_NO_KNOCKBACK))
 	{
