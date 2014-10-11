@@ -1726,6 +1726,31 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		} else
 			client->ps.pmove.pm_flags &= ~PMF_JUMP_HELD;
 	}
+	else {
+		if (ent->statusEffects > 0) {
+			int shouldDoStatusEffect = (ent->statusEffectsCooldown % ent->statusEffectsCooldownStep == 0);
+			
+			if (shouldDoStatusEffect) {
+				if ((ent->statusEffects & POTION_TYPE_POISON) == POTION_TYPE_POISON) {
+					int damage = 10;
+					if (ent->health - damage < 10) {
+						damage = ent->health - damage;
+					}
+					T_Damage(ent, NULL, ent, vec3_origin, vec3_origin, vec3_origin, damage, 0, DAMAGE_NO_KNOCKBACK, 0);
+				}
+
+				if ((ent->statusEffects & POTION_TYPE_REGENERATION) == POTION_TYPE_REGENERATION) {
+					T_Damage(ent, NULL, ent, vec3_origin, vec3_origin, vec3_origin, -15, 0, DAMAGE_NO_KNOCKBACK, 0);
+				}
+			}
+
+			ent->statusEffectsCooldown -= 1;
+
+			if (ent->statusEffectsCooldown == 0) {
+				ent->statusEffects = 0;
+			}
+		}
+	}
 
 	// update chase cam if being followed
 	for (i = 1; i <= maxclients->value; i++) {
