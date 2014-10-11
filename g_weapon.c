@@ -904,6 +904,20 @@ int potion_type_to_status_effect(int potion_type) {
 	switch (potion_type) {
 		case POTION_TYPE_SPEED:
 			return Status_Effect_Speed;
+		case POTION_TYPE_SLOWNESS:
+			return Status_Effect_Slowness;
+		case POTION_TYPE_STRENGTH:
+			return Status_Effect_Strength;
+		case POTION_TYPE_JUMP_BOOST:
+			return Status_Effect_Jump_Boost;
+		case POTION_TYPE_REGENERATION:
+			return Status_Effect_Regeneration;
+		case POTION_TYPE_RESISTANCE:
+			return Status_Effect_Resistance;
+		case POTION_TYPE_WEAKNESS:
+			return Status_Effect_Weakness;
+		case POTION_TYPE_POISON:
+			return Status_Effect_Poison;
 	}
 
 	return 0;
