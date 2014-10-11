@@ -1602,6 +1602,21 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			client->ps.pmove.pm_type = PM_NORMAL;
 
 		client->ps.pmove.gravity = sv_gravity->value;
+
+		if ((ent->statusEffects & Status_Effect_Jump_Boost) == Status_Effect_Jump_Boost) {
+			client->ps.pmove.gravity *= 0.25;
+		}
+
+		if ((ent->statusEffects & Status_Effect_Speed) == Status_Effect_Speed) {
+			ucmd->forwardmove *= 1.5;
+			ucmd->sidemove *= 1.5;
+		}
+
+		if ((ent->statusEffects & Status_Effect_Slowness) == Status_Effect_Slowness) {
+			ucmd->forwardmove *= 0.5;
+			ucmd->sidemove *= 0.5;
+		}
+
 		pm.s = client->ps.pmove;
 
 		for (i=0 ; i<3 ; i++)
