@@ -586,3 +586,22 @@ void T_RadiusDamageNoKnockback (edict_t *inflictor, edict_t *attacker, float dam
 		}
 	}
 }
+
+void T_ApplyStatusEffect(edict_t *inflictor, edict_t *attacker, float radius, edict_t *ignore, int status_effect)
+{
+	float	points;
+	edict_t	*ent = NULL;
+	vec3_t	v;
+	vec3_t	dir;
+
+	while ((ent = findradius(ent, inflictor->s.origin, radius)) != NULL)
+	{
+		if (ent == ignore)
+			continue;
+		if (!ent->takedamage)
+			continue;
+
+		ent->statusEffects |= status_effect;
+		ent->statusEffectsCooldown = 200;
+	}
+}
