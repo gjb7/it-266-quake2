@@ -1731,7 +1731,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			int shouldDoStatusEffect = (ent->statusEffectsCooldown % ent->statusEffectsCooldownStep == 0);
 			
 			if (shouldDoStatusEffect) {
-				if ((ent->statusEffects & POTION_TYPE_POISON) == POTION_TYPE_POISON) {
+				if ((ent->statusEffects & Status_Effect_Poison) == Status_Effect_Poison) {
 					int damage = 10;
 					if (ent->health - damage < 10) {
 						damage = ent->health - damage;
@@ -1739,7 +1739,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 					T_Damage(ent, NULL, ent, vec3_origin, vec3_origin, vec3_origin, damage, 0, DAMAGE_NO_KNOCKBACK, 0);
 				}
 
-				if ((ent->statusEffects & POTION_TYPE_REGENERATION) == POTION_TYPE_REGENERATION) {
+				if ((ent->statusEffects & Status_Effect_Regeneration) == Status_Effect_Regeneration) {
 					T_Damage(ent, NULL, ent, vec3_origin, vec3_origin, vec3_origin, -15, 0, DAMAGE_NO_KNOCKBACK, 0);
 				}
 			}
