@@ -1746,11 +1746,16 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			int shouldDoStatusEffect = (ent->statusEffectsCooldown % ent->statusEffectsCooldownStep == 0);
 			
 			if (shouldDoStatusEffect) {
-				if ((ent->statusEffects & Status_Effect_Poison) == Status_Effect_Poison) {
+				if ((ent->statusEffects & Status_Effect_Poison) == Status_Effect_Poison ||
+					(ent->statusEffects & Status_Effect_Wither) == Status_Effect_Wither) {
 					int damage = 10;
-					if (ent->health - damage < 10) {
-						damage = ent->health - damage;
+
+					if ((ent->statusEffects & Status_Effect_Poison) == Status_Effect_Poison) {
+						if (ent->health - damage < 10) {
+							damage = ent->health - damage;
+						}
 					}
+					
 					T_Damage(ent, NULL, ent, vec3_origin, vec3_origin, vec3_origin, damage, 0, DAMAGE_NO_KNOCKBACK, 0);
 				}
 
