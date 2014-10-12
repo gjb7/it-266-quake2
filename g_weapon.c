@@ -912,8 +912,8 @@ int potion_type_to_status_effect(int potion_type) {
 			return Status_Effect_Jump_Boost;
 		case POTION_TYPE_REGENERATION:
 			return Status_Effect_Regeneration;
-		case POTION_TYPE_RESISTANCE:
-			return Status_Effect_Resistance;
+		case POTION_TYPE_WITHER:
+			return Status_Effect_Wither;
 		case POTION_TYPE_WEAKNESS:
 			return Status_Effect_Weakness;
 		case POTION_TYPE_POISON:
@@ -953,7 +953,7 @@ void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *
 		case POTION_TYPE_STRENGTH:
 		case POTION_TYPE_JUMP_BOOST:
 		case POTION_TYPE_REGENERATION:
-		case POTION_TYPE_RESISTANCE:
+		case POTION_TYPE_WITHER:
 		case POTION_TYPE_WEAKNESS:
 		case POTION_TYPE_POISON:
 			T_ApplyStatusEffect(ent, ent->owner, ent->dmg_radius, ent->enemy, potion_type_to_status_effect(ent->spawnflags));

@@ -410,10 +410,6 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 		damage *= 2;
 	}
 
-	if ((targ->statusEffects & Status_Effect_Resistance) == Status_Effect_Resistance) {
-		damage /= 2;
-	}
-
 	if ((attacker->statusEffects & Status_Effect_Strength) == Status_Effect_Strength) {
 		damage *= 2;
 	}
@@ -622,9 +618,9 @@ void T_ApplyStatusEffect(edict_t *inflictor, edict_t *attacker, float radius, ed
 			case POTION_TYPE_SLOWNESS:
 			case POTION_TYPE_STRENGTH:
 			case POTION_TYPE_JUMP_BOOST:
-			case POTION_TYPE_RESISTANCE:
 			case POTION_TYPE_WEAKNESS:
 				break;
+			case POTION_TYPE_WITHER:
 			case POTION_TYPE_REGENERATION:
 			case POTION_TYPE_POISON:
 				break;

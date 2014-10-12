@@ -1112,19 +1112,38 @@ enum {
 	Status_Effect_Strength = 1 << 3,
 	Status_Effect_Jump_Boost = 1 << 4,
 	Status_Effect_Regeneration = 1 << 5,
-	Status_Effect_Resistance = 1 << 6,
+	Status_Effect_Wither = 1 << 6,
 	Status_Effect_Weakness = 1 << 7,
 	Status_Effect_Poison = 1 << 8
 };
 
+/** Positive */
 #define POTION_TYPE_SPEED 1
+
+/** Negative */
 #define POTION_TYPE_SLOWNESS 2
+
+/** Positive */
 #define POTION_TYPE_STRENGTH 3
+
+/** Positive */
 #define POTION_TYPE_INSTANT_HEALTH 4
+
+/** Negative */
 #define POTION_TYPE_INSTANT_DAMAGE 5
+
+/** Positive */
 #define POTION_TYPE_JUMP_BOOST 6
+
+/** Positive */
 #define POTION_TYPE_REGENERATION 7
-#define POTION_TYPE_RESISTANCE 8
+
+/** Negative */
+#define POTION_TYPE_WITHER 8
+
+/** Negative */
 #define POTION_TYPE_WEAKNESS 9
+
+/** Negative */
 #define POTION_TYPE_POISON 10
 

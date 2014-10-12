@@ -1586,8 +1586,8 @@ void Weapon_Potion_Regeneration (edict_t *e) {
 	Weapon_Potion(e, POTION_TYPE_REGENERATION);
 }
 
-void Weapon_Potion_Resistance (edict_t *e) {
-	Weapon_Potion(e, POTION_TYPE_RESISTANCE);
+void Weapon_Potion_Wither (edict_t *e) {
+	Weapon_Potion(e, POTION_TYPE_WITHER);
 }
 
 void Weapon_Potion_Weakness (edict_t *e) {
