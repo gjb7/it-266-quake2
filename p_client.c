@@ -527,6 +527,8 @@ void player_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 	self->client->breather_framenum = 0;
 	self->client->enviro_framenum = 0;
 	self->flags &= ~FL_POWER_ARMOR;
+	self->statusEffects = 0;
+	self->statusEffectsCooldown = 0;
 
 	if (self->health < -40)
 	{	// gib
