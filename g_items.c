@@ -1749,9 +1749,9 @@ always owned, never in the world
 */
 	{
 		"ammo_shells",
-		Pickup_Ammo,
 		NULL,
-		Drop_Ammo,
+		NULL,
+		NULL,
 		NULL,
 		"misc/am_pkup.wav",
 		"models/items/ammo/shells/medium/tris.md2", 0,
@@ -1772,9 +1772,9 @@ always owned, never in the world
 */
 	{
 		"ammo_bullets",
-		Pickup_Ammo,
 		NULL,
-		Drop_Ammo,
+		NULL,
+		NULL,
 		NULL,
 		"misc/am_pkup.wav",
 		"models/items/ammo/bullets/medium/tris.md2", 0,
@@ -1795,9 +1795,9 @@ always owned, never in the world
 */
 	{
 		"ammo_cells",
-		Pickup_Ammo,
 		NULL,
-		Drop_Ammo,
+		NULL,
+		NULL,
 		NULL,
 		"misc/am_pkup.wav",
 		"models/items/ammo/cells/medium/tris.md2", 0,
@@ -1818,9 +1818,9 @@ always owned, never in the world
 */
 	{
 		"ammo_rockets",
-		Pickup_Ammo,
 		NULL,
-		Drop_Ammo,
+		NULL,
+		NULL,
 		NULL,
 		"misc/am_pkup.wav",
 		"models/items/ammo/rockets/medium/tris.md2", 0,
@@ -1841,9 +1841,9 @@ always owned, never in the world
 */
 	{
 		"ammo_slugs",
-		Pickup_Ammo,
 		NULL,
-		Drop_Ammo,
+		NULL,
+		NULL,
 		NULL,
 		"misc/am_pkup.wav",
 		"models/items/ammo/slugs/medium/tris.md2", 0,
