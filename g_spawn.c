@@ -94,7 +94,6 @@ void SP_misc_teleporter (edict_t *self);
 void SP_misc_teleporter_dest (edict_t *self);
 void SP_misc_blackhole (edict_t *self);
 void SP_misc_eastertank (edict_t *self);
-void SP_misc_eastertank_merchant (edict_t *self);
 void SP_misc_easterchick (edict_t *self);
 void SP_misc_easterchick2 (edict_t *self);
 
@@ -135,7 +134,7 @@ spawn_t	spawns[] = {
 
 	{"info_player_start", SP_info_player_start},
 	{"info_player_deathmatch", SP_info_player_deathmatch},
-	{"info_player_coop", SP_misc_eastertank_merchant },
+	{"info_player_coop", SP_info_player_coop},
 	{"info_player_intermission", SP_info_player_intermission},
 
 	{"func_plat", SP_func_plat},
@@ -839,7 +838,7 @@ void SP_worldspawn (edict_t *ent)
 
 	snd_fry = gi.soundindex ("player/fry.wav");	// standing in lava / slime
 
-	PrecacheItem (FindItem ("Blaster"));
+	PrecacheItem (FindItem ("Instant Damage Potion"));
 
 	gi.soundindex ("player/lava1.wav");
 	gi.soundindex ("player/lava2.wav");
