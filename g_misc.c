@@ -1062,6 +1062,31 @@ void SP_misc_eastertank (edict_t *ent)
 	gi.linkentity (ent);
 }
 
+edict_t *merchant_tank;
+
+void SP_misc_eastertank_merchant (edict_t *ent)
+{
+	if (merchant_tank) {
+		return;
+	}
+	
+	merchant_tank = ent;
+	ent->movetype = MOVETYPE_NONE;
+	ent->solid = SOLID_BBOX;
+	VectorSet (ent->mins, -32, -32, -16);
+	VectorSet (ent->maxs, 32, 32, 32);
+	ent->s.modelindex = gi.modelindex ("models/monsters/tank/tris.md2");
+	ent->s.frame = 254;
+	ent->think = misc_eastertank_think;
+	ent->nextthink = level.time + 2 * FRAMETIME;
+	ent->use = 
+	gi.linkentity (ent);
+}
+
+void SP_misc_eastertank_merchant_use(edict_t *self, edict_t *other, edict_t *activator) {
+	
+}
+
 /*QUAKED misc_easterchick (1 .5 0) (-32 -32 0) (32 32 32)
 */
 
