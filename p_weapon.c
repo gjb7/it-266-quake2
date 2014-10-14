@@ -137,7 +137,7 @@ qboolean Pickup_Weapon (edict_t *ent, edict_t *other)
 
 	if (other->client->pers.weapon != ent->item && 
 		(other->client->pers.inventory[index] == 1) &&
-		( !deathmatch->value || other->client->pers.weapon == FindItem("Instant Death Potion") ) )
+		( !deathmatch->value || other->client->pers.weapon == FindItem("Blaster") ) )
 		other->client->newweapon = ent->item;
 
 	return true;
@@ -250,7 +250,7 @@ void NoAmmoWeaponChange (edict_t *ent)
 		ent->client->newweapon = FindItem ("shotgun");
 		return;
 	}
-	ent->client->newweapon = FindItem ("Instant Death Potion");
+	ent->client->newweapon = FindItem ("Blaster");
 }
 
 /*
