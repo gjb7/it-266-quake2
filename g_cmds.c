@@ -50,6 +50,13 @@ void SelectNextItem (edict_t *ent, int itflags)
 	int			i, index;
 	gitem_t		*it;
 
+	// menu system code
+        if (ent->client->menustorage.menu_active)
+        {
+               menudown(ent);
+               return;
+        }
+
 	cl = ent->client;
 
 	if (cl->chase_target) {
@@ -81,6 +88,13 @@ void SelectPrevItem (edict_t *ent, int itflags)
 	gclient_t	*cl;
 	int			i, index;
 	gitem_t		*it;
+
+	// menu system code
+        if (ent->client->menustorage.menu_active)
+        {
+               menuup(ent);
+               return;
+        }
 
 	cl = ent->client;
 
@@ -448,6 +462,12 @@ void Cmd_Inven_f (edict_t *ent)
 {
 	int			i;
 	gclient_t	*cl;
+
+	if (ent->client->menustorage.menu_active)
+        {
+               menuselect(ent);
+               return;
+        }
 
 	cl = ent->client;
 

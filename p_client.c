@@ -1483,6 +1483,9 @@ qboolean ClientConnect (edict_t *ent, char *userinfo)
 
 	ent->svflags = 0; // make sure we start with known default
 	ent->client->pers.connected = true;
+
+	initmenu(ent);
+
 	return true;
 }
 

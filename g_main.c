@@ -203,6 +203,8 @@ void EndDMLevel (void)
 	char *s, *t, *f;
 	static const char *seps = " ,\n\r";
 
+	clearallmenus(ent);
+
 	// stay on same level flag
 	if ((int)dmflags->value & DF_SAME_LEVEL)
 	{
@@ -248,6 +250,7 @@ void EndDMLevel (void)
 		}
 		BeginIntermission (ent);
 	}
+
 }
 
 

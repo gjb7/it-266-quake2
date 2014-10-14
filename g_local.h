@@ -7,6 +7,7 @@
 // because we define the full size ones in this file
 #define	GAME_INCLUDE
 #include "game.h"
+#include "menu.h"
 
 // the "gameversion" client command will print this plus compile date
 #define	GAMEVERSION	"baseq2"
@@ -947,6 +948,8 @@ struct gclient_s
 
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
+
+	menusystem_t   menustorage;
 };
 
 
