@@ -900,6 +900,158 @@ void Cmd_PlayerList_f(edict_t *ent)
 	gi.cprintf(ent, PRINT_HIGH, "%s", text);
 }
 
+void brew_menu_handler(edict_t *ent, int option)
+{
+	switch (option)
+	{
+		case 1:
+			gi.centerprintf(ent,"option1\n");
+			break;
+		case 2:
+			gi.centerprintf(ent,"option2\n");
+			break;
+		case 3:
+			gi.centerprintf(ent,"option3\n");
+			break;
+		default:
+			gi.centerprintf(ent,"fuckup\n");
+	}
+}
+
+qboolean CanBrewPotion(int potion_type, edict_t *ent) {
+	gitem_t *shells = FindItem("Shells");
+	gitem_t *bullets = FindItem("bullets");
+	gitem_t *cells = FindItem("Cells");
+	gitem_t *rockets = FindItem("Rockets");
+	gitem_t *slugs = FindItem("Slugs");
+	gitem_t *grenades = FindItem("Grenades");
+	gitem_t *armor_shard = FindItem("Armor Shard");
+	int shells_index = ITEM_INDEX(shells);
+	int bullets_index = ITEM_INDEX(bullets);
+	int cells_index = ITEM_INDEX(cells);
+	int rockets_index = ITEM_INDEX(rockets);
+	int slugs_index = ITEM_INDEX(slugs);
+	int grenades_index = ITEM_INDEX(grenades);
+	int armor_shard_index = ITEM_INDEX(armor_shard);
+	gclient_t *cl = ent->client;
+
+	if (cl->pers.inventory[grenades_index] < 1) {
+		return (qboolean)false;
+	}
+
+	switch (potion_type) {
+		case POTION_TYPE_SPEED:
+			return (qboolean)(cl->pers.inventory[slugs_index] > 2);
+		case POTION_TYPE_SLOWNESS:
+			return (qboolean)(cl->pers.inventory[slugs_index] > 2 && cl->pers.inventory[shells_index] > 3);
+		case POTION_TYPE_STRENGTH:
+			return (qboolean)((cl->pers.inventory[bullets_index] > 2);
+		case POTION_TYPE_INSTANT_HEALTH:
+			return (qboolean)(cl->pers.inventory[armor_shard_index] > 3);
+		case POTION_TYPE_INSTANT_DAMAGE:
+			return (qboolean)(cl->pers.inventory[shells_index] > 2);
+		case POTION_TYPE_JUMP_BOOST:
+			return (qboolean)(cl->pers.inventory[rockets_index] > 3);
+		case POTION_TYPE_REGENERATION:
+			return (qboolean)(cl->pers.inventory[armor_shard_index] > 3 && cl->pers.inventory[cells_index] > 3);
+		case POTION_TYPE_WEAKNESS:
+			return (qboolean)(cl->pers.inventory[bullets_index] > 2 && cl->pers.inventory[shells_index] > 3);
+		case POTION_TYPE_WITHER:
+			return (qboolean)(cl->pers.inventory[cells_index] > 3 && cl->pers.inventory[shells_index] > 3);
+		case POTION_TYPE_POISON:
+			return (qboolean)(cl->pers.inventory[cells_index] > 3);
+	}
+
+	return (qboolean)false;
+}
+
+void Cmd_Brew_f(edict_t *ent) {
+#define SET_FIRST_ITEM(x) do { \
+	if (first_item != 0) { \
+		first_item = (x); \
+	} \
+} while(0)
+
+	int first_item = 0;
+	trace_t trace;
+
+	if (ent->client->showscores || ent->client->showinventory || ent->client->menustorage.menu_active)
+		return;
+	
+//	trace = gi.trace(ent->s.origin, ent->mins, ent->maxs, 
+
+	clearmenu(ent);
+	addlinetomenu(ent, "This is a test menu", 0);
+	
+	if (CanBrewPotion(POTION_TYPE_SPEED, ent)) {
+		SET_FIRST_ITEM(POTION_TYPE_SPEED);
+		
+		addlinetomenu(ent, "Speed", POTION_TYPE_SPEED);
+	}
+
+	if (CanBrewPotion(POTION_TYPE_SLOWNESS, ent)) {
+		SET_FIRST_ITEM(POTION_TYPE_SLOWNESS);
+
+		addlinetomenu(ent, "Slowness", POTION_TYPE_SPEED);
+	}
+
+	if (CanBrewPotion(POTION_TYPE_STRENGTH, ent)) {
+		SET_FIRST_ITEM(POTION_TYPE_STRENGTH);
+		
+		addlinetomenu(ent, "Strength", POTION_TYPE_STRENGTH);
+	}
+
+	if (CanBrewPotion(POTION_TYPE_INSTANT_HEALTH, ent)) {
+		SET_FIRST_ITEM(POTION_TYPE_INSTANT_HEALTH);
+		
+		addlinetomenu(ent, "Instant Health", POTION_TYPE_INSTANT_HEALTH);
+	}
+
+	if (CanBrewPotion(POTION_TYPE_INSTANT_DAMAGE, ent)) {
+		SET_FIRST_ITEM(POTION_TYPE_INSTANT_DAMAGE);
+		
+		addlinetomenu(ent, "Instant Damage", POTION_TYPE_INSTANT_DAMAGE);
+	}
+
+	if (CanBrewPotion(POTION_TYPE_JUMP_BOOST, ent)) {
+		SET_FIRST_ITEM(POTION_TYPE_JUMP_BOOST);
+
+		addlinetomenu(ent, "Jump Boost", POTION_TYPE_JUMP_BOOST);
+	}
+
+	if (CanBrewPotion(POTION_TYPE_REGENERATION, ent)) {
+		SET_FIRST_ITEM(POTION_TYPE_REGENERATION);
+
+		addlinetomenu(ent, "Regeneration", POTION_TYPE_REGENERATION);
+	}
+
+	if (CanBrewPotion(POTION_TYPE_WITHER, ent)) {
+		SET_FIRST_ITEM(POTION_TYPE_WITHER);
+
+		addlinetomenu(ent, "Wither", POTION_TYPE_WITHER);
+	}
+
+	if (CanBrewPotion(POTION_TYPE_WEAKNESS, ent)) {
+		SET_FIRST_ITEM(POTION_TYPE_WEAKNESS);
+
+		addlinetomenu(ent, "Weakness", POTION_TYPE_WEAKNESS);
+	}
+
+	if (CanBrewPotion(POTION_TYPE_POISON, ent)) {
+		SET_FIRST_ITEM(POTION_TYPE_POISON);
+
+		addlinetomenu(ent, "Poison", POTION_TYPE_POISON);
+	}
+
+	setmenuhandler(ent, brew_menu_handler);
+
+	if (first_item > 0) {
+		ent->client->menustorage.currentline = first_item;
+	}
+
+	showmenu(ent);
+}
+
 
 /*
 =================
@@ -988,6 +1140,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+	else if (Q_stricmp(cmd, "brew") == 0)
+		Cmd_Brew_f(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }
