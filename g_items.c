@@ -1283,7 +1283,7 @@ always owned, never in the world
 	{
 		"weapon_potion_speed",
 		NULL,
-		NULL,
+		Use_Weapon,
 		NULL,
 		Weapon_Potion_Speed,
 		"misc/w_pkup.wav",
@@ -1304,7 +1304,7 @@ always owned, never in the world
 	{
 		"weapon_potion_slowness",
 		NULL,
-		NULL,
+		Use_Weapon,
 		NULL,
 		Weapon_Potion_Slowness,
 		"misc/w_pkup.wav",
@@ -1325,7 +1325,7 @@ always owned, never in the world
 	{
 		"weapon_potion_strength",
 		NULL,
-		NULL,
+		Use_Weapon,
 		NULL,
 		Weapon_Potion_Strength,
 		"misc/w_pkup.wav",
@@ -1346,7 +1346,7 @@ always owned, never in the world
 	{
 		"weapon_potion_instant_health",
 		NULL,
-		NULL,
+		Use_Weapon,
 		NULL,
 		Weapon_Potion_Instant_Health,
 		"misc/w_pkup.wav",
@@ -1367,7 +1367,7 @@ always owned, never in the world
 	{
 		"weapon_potion_instant_damage",
 		NULL,
-		NULL,
+		Use_Weapon,
 		NULL,
 		Weapon_Potion_Instant_Damage,
 		"misc/w_pkup.wav",
@@ -1388,7 +1388,7 @@ always owned, never in the world
 	{
 		"weapon_potion_jump_boost",
 		NULL,
-		NULL,
+		Use_Weapon,
 		NULL,
 		Weapon_Potion_Jump_Boost,
 		"misc/w_pkup.wav",
@@ -1409,7 +1409,7 @@ always owned, never in the world
 	{
 		"weapon_potion_regeneration",
 		NULL,
-		NULL,
+		Use_Weapon,
 		NULL,
 		Weapon_Potion_Regeneration,
 		"misc/w_pkup.wav",
@@ -1430,7 +1430,7 @@ always owned, never in the world
 	{
 		"weapon_potion_wither",
 		NULL,
-		NULL,
+		Use_Weapon,
 		NULL,
 		Weapon_Potion_Wither,
 		"misc/w_pkup.wav",
@@ -1451,7 +1451,7 @@ always owned, never in the world
 	{
 		"weapon_potion_weakness",
 		NULL,
-		NULL,
+		Use_Weapon,
 		NULL,
 		Weapon_Potion_Weakness,
 		"misc/w_pkup.wav",
@@ -1472,7 +1472,7 @@ always owned, never in the world
 	{
 		"weapon_potion_poison",
 		NULL,
-		NULL,
+		Use_Weapon,
 		NULL,
 		Weapon_Potion_Poison,
 		"misc/w_pkup.wav",
