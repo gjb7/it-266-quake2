@@ -2,6 +2,8 @@
 #include "m_player.h"
 
 
+gitem_t *FirstPotionInInventory(edict_t *ent);
+
 char *ClientTeam (edict_t *ent)
 {
 	char		*p;
@@ -398,8 +400,14 @@ void Cmd_Use_f (edict_t *ent)
 	it = FindItem (s);
 	if (!it)
 	{
-		gi.cprintf (ent, PRINT_HIGH, "unknown item: %s\n", s);
-		return;
+		if (Q_stricmp(s, "potions") == 0) {
+			it = FirstPotionInInventory(ent);
+		}
+		
+		if (!it) {
+			gi.cprintf (ent, PRINT_HIGH, "unknown item: %s\n", s);
+			return;
+		}
 	}
 	if (!it->use)
 	{
@@ -462,12 +470,6 @@ void Cmd_Inven_f (edict_t *ent)
 {
 	int			i;
 	gclient_t	*cl;
-
-	if (ent->client->menustorage.menu_active)
-        {
-               menuselect(ent);
-               return;
-        }
 
 	cl = ent->client;
 
@@ -1015,6 +1017,35 @@ qboolean HasAtLeastOnePotion(edict_t *ent) {
 	}
 
 	return (qboolean)false;
+}
+
+gitem_t *FirstPotionInInventory(edict_t *ent) {
+	static char *potion_names[] = {
+		"Speed Potion",
+		"Slowness Potion",
+		"Strength Potion",
+		"Instant Health Potion",
+		"Instant Damage Potion",
+		"Jump Boost Potion",
+		"Regeneration Potion",
+		"Wither Potion",
+		"Weakness Potion",
+		"Poison Potion",
+		NULL
+	};
+
+	int i;
+	char *potion_name;
+	for (i = 0; ((potion_name = potion_names[i]) != NULL); i++) {
+		gitem_t *item = FindItem(potion_name);
+		int item_index = ITEM_INDEX(item);
+
+		if (ent->client->pers.inventory[item_index] > 0) {
+			return item;
+		}
+	}
+
+	return NULL;
 }
 
 void Cmd_Brew_f(edict_t *ent) {
