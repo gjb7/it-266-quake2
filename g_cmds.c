@@ -499,6 +499,13 @@ void Cmd_InvUse_f (edict_t *ent)
 {
 	gitem_t		*it;
 
+	// menu system code
+        if (ent->client->menustorage.menu_active)
+        {
+               menuselect(ent);
+               return;
+        }
+
 	ValidateSelectedItem (ent);
 
 	if (ent->client->pers.selected_item == -1)
@@ -900,24 +907,6 @@ void Cmd_PlayerList_f(edict_t *ent)
 	gi.cprintf(ent, PRINT_HIGH, "%s", text);
 }
 
-void brew_menu_handler(edict_t *ent, int option)
-{
-	switch (option)
-	{
-		case 1:
-			gi.centerprintf(ent,"option1\n");
-			break;
-		case 2:
-			gi.centerprintf(ent,"option2\n");
-			break;
-		case 3:
-			gi.centerprintf(ent,"option3\n");
-			break;
-		default:
-			gi.centerprintf(ent,"fuckup\n");
-	}
-}
-
 qboolean CanBrewPotion(edict_t *ent, int potion_type) {
 	gitem_t *shells = FindItem("Shells");
 	gitem_t *bullets = FindItem("bullets");
@@ -966,11 +955,37 @@ qboolean CanBrewPotion(edict_t *ent, int potion_type) {
 }
 
 void BrewPotion(edict_t *ent, int potion_type) {
+	gitem_t *shells = FindItem("Shells");
+	gitem_t *bullets = FindItem("bullets");
+	gitem_t *cells = FindItem("Cells");
+	gitem_t *rockets = FindItem("Rockets");
+	gitem_t *slugs = FindItem("Slugs");
+	gitem_t *grenades = FindItem("Grenades");
+	gitem_t *armor_shard = FindItem("Armor Shard");
+	int shells_index = ITEM_INDEX(shells);
+	int bullets_index = ITEM_INDEX(bullets);
+	int cells_index = ITEM_INDEX(cells);
+	int rockets_index = ITEM_INDEX(rockets);
+	int slugs_index = ITEM_INDEX(slugs);
+	int grenades_index = ITEM_INDEX(grenades);
+	int armor_shard_index = ITEM_INDEX(armor_shard);
+	gclient_t *cl = ent->client;
+	
 	if (!CanBrewPotion(ent, potion_type)) {
 		return;
 	}
 
-	switch (
+	cl->pers.inventory[grenades_index] -= 1;
+
+	switch (potion_type) {
+		case POTION_TYPE_INSTANT_DAMAGE: {
+			gitem_t *item = FindItem("Instant Damage Potion");
+			int item_index = ITEM_INDEX(item);
+			
+			cl->pers.inventory[shells_index] -= 2;
+			cl->pers.inventory[item_index] += 3;
+		}
+	}
 }
 
 qboolean HasAtLeastOnePotion(edict_t *ent) {
@@ -1020,6 +1035,8 @@ void Cmd_Brew_f(edict_t *ent) {
 	clearmenu(ent);
 	
 	if (HasAtLeastOnePotion(ent)) {
+		// TODO: Print message.
+		
 		return;
 	}
 	
@@ -1085,7 +1102,7 @@ void Cmd_Brew_f(edict_t *ent) {
 		addlinetomenu(ent, "Poison", POTION_TYPE_POISON);
 	}
 
-	setmenuhandler(ent, brew_menu_handler);
+	setmenuhandler(ent, BrewPotion);
 
 	if (first_item > 0) {
 		ent->client->menustorage.currentline = first_item;
