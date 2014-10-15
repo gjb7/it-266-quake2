@@ -918,7 +918,7 @@ void brew_menu_handler(edict_t *ent, int option)
 	}
 }
 
-qboolean CanBrewPotion(int potion_type, edict_t *ent) {
+qboolean CanBrewPotion(edict_t *ent, int potion_type) {
 	gitem_t *shells = FindItem("Shells");
 	gitem_t *bullets = FindItem("bullets");
 	gitem_t *cells = FindItem("Cells");
@@ -945,7 +945,7 @@ qboolean CanBrewPotion(int potion_type, edict_t *ent) {
 		case POTION_TYPE_SLOWNESS:
 			return (qboolean)(cl->pers.inventory[slugs_index] > 2 && cl->pers.inventory[shells_index] > 3);
 		case POTION_TYPE_STRENGTH:
-			return (qboolean)((cl->pers.inventory[bullets_index] > 2);
+			return (qboolean)(cl->pers.inventory[bullets_index] > 2);
 		case POTION_TYPE_INSTANT_HEALTH:
 			return (qboolean)(cl->pers.inventory[armor_shard_index] > 3);
 		case POTION_TYPE_INSTANT_DAMAGE:
@@ -960,6 +960,43 @@ qboolean CanBrewPotion(int potion_type, edict_t *ent) {
 			return (qboolean)(cl->pers.inventory[cells_index] > 3 && cl->pers.inventory[shells_index] > 3);
 		case POTION_TYPE_POISON:
 			return (qboolean)(cl->pers.inventory[cells_index] > 3);
+	}
+
+	return (qboolean)false;
+}
+
+void BrewPotion(edict_t *ent, int potion_type) {
+	if (!CanBrewPotion(ent, potion_type)) {
+		return;
+	}
+
+	switch (
+}
+
+qboolean HasAtLeastOnePotion(edict_t *ent) {
+	static char *potion_names[] = {
+		"Speed Potion",
+		"Slowness Potion",
+		"Strength Potion",
+		"Instant Health Potion",
+		"Instant Damage Potion",
+		"Jump Boost Potion",
+		"Regeneration Potion",
+		"Wither Potion",
+		"Weakness Potion",
+		"Poison Potion",
+		NULL
+	};
+
+	int i;
+	char *potion_name;
+	for (i = 0; ((potion_name = potion_names[i]) != NULL); i++) {
+		gitem_t *item = FindItem(potion_name);
+		int item_index = ITEM_INDEX(item);
+
+		if (ent->client->pers.inventory[item_index] > 0) {
+			return (qboolean)true;
+		}
 	}
 
 	return (qboolean)false;
@@ -981,63 +1018,68 @@ void Cmd_Brew_f(edict_t *ent) {
 //	trace = gi.trace(ent->s.origin, ent->mins, ent->maxs, 
 
 	clearmenu(ent);
-	addlinetomenu(ent, "This is a test menu", 0);
 	
-	if (CanBrewPotion(POTION_TYPE_SPEED, ent)) {
+	if (HasAtLeastOnePotion(ent)) {
+		return;
+	}
+	
+	addlinetomenu(ent, "Brew a Potion:", 0);
+	
+	if (CanBrewPotion(ent, POTION_TYPE_SPEED)) {
 		SET_FIRST_ITEM(POTION_TYPE_SPEED);
 		
 		addlinetomenu(ent, "Speed", POTION_TYPE_SPEED);
 	}
 
-	if (CanBrewPotion(POTION_TYPE_SLOWNESS, ent)) {
+	if (CanBrewPotion(ent, POTION_TYPE_SLOWNESS)) {
 		SET_FIRST_ITEM(POTION_TYPE_SLOWNESS);
 
 		addlinetomenu(ent, "Slowness", POTION_TYPE_SPEED);
 	}
 
-	if (CanBrewPotion(POTION_TYPE_STRENGTH, ent)) {
+	if (CanBrewPotion(ent, POTION_TYPE_STRENGTH)) {
 		SET_FIRST_ITEM(POTION_TYPE_STRENGTH);
 		
 		addlinetomenu(ent, "Strength", POTION_TYPE_STRENGTH);
 	}
 
-	if (CanBrewPotion(POTION_TYPE_INSTANT_HEALTH, ent)) {
+	if (CanBrewPotion(ent, POTION_TYPE_INSTANT_HEALTH)) {
 		SET_FIRST_ITEM(POTION_TYPE_INSTANT_HEALTH);
 		
 		addlinetomenu(ent, "Instant Health", POTION_TYPE_INSTANT_HEALTH);
 	}
 
-	if (CanBrewPotion(POTION_TYPE_INSTANT_DAMAGE, ent)) {
+	if (CanBrewPotion(ent, POTION_TYPE_INSTANT_DAMAGE)) {
 		SET_FIRST_ITEM(POTION_TYPE_INSTANT_DAMAGE);
 		
 		addlinetomenu(ent, "Instant Damage", POTION_TYPE_INSTANT_DAMAGE);
 	}
 
-	if (CanBrewPotion(POTION_TYPE_JUMP_BOOST, ent)) {
+	if (CanBrewPotion(ent, POTION_TYPE_JUMP_BOOST)) {
 		SET_FIRST_ITEM(POTION_TYPE_JUMP_BOOST);
 
 		addlinetomenu(ent, "Jump Boost", POTION_TYPE_JUMP_BOOST);
 	}
 
-	if (CanBrewPotion(POTION_TYPE_REGENERATION, ent)) {
+	if (CanBrewPotion(ent, POTION_TYPE_REGENERATION)) {
 		SET_FIRST_ITEM(POTION_TYPE_REGENERATION);
 
 		addlinetomenu(ent, "Regeneration", POTION_TYPE_REGENERATION);
 	}
 
-	if (CanBrewPotion(POTION_TYPE_WITHER, ent)) {
+	if (CanBrewPotion(ent, POTION_TYPE_WITHER)) {
 		SET_FIRST_ITEM(POTION_TYPE_WITHER);
 
 		addlinetomenu(ent, "Wither", POTION_TYPE_WITHER);
 	}
 
-	if (CanBrewPotion(POTION_TYPE_WEAKNESS, ent)) {
+	if (CanBrewPotion(ent, POTION_TYPE_WEAKNESS)) {
 		SET_FIRST_ITEM(POTION_TYPE_WEAKNESS);
 
 		addlinetomenu(ent, "Weakness", POTION_TYPE_WEAKNESS);
 	}
 
-	if (CanBrewPotion(POTION_TYPE_POISON, ent)) {
+	if (CanBrewPotion(ent, POTION_TYPE_POISON)) {
 		SET_FIRST_ITEM(POTION_TYPE_POISON);
 
 		addlinetomenu(ent, "Poison", POTION_TYPE_POISON);
