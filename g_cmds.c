@@ -973,6 +973,9 @@ void BrewPotion(edict_t *ent, int potion_type) {
 	int armor_shard_index = ITEM_INDEX(armor_shard);
 	gclient_t *cl = ent->client;
 	
+	gitem_t *potion;
+	int potion_index;
+
 	if (!CanBrewPotion(ent, potion_type)) {
 		return;
 	}
@@ -980,14 +983,64 @@ void BrewPotion(edict_t *ent, int potion_type) {
 	cl->pers.inventory[grenades_index] -= 1;
 
 	switch (potion_type) {
+		case POTION_TYPE_SPEED: {
+			potion = FindItem("Speed Potion");
+			
+			cl->pers.inventory[slugs_index] -= 2;
+		}
+		case POTION_TYPE_SLOWNESS: {
+			potion = FindItem("Slowness Potion");
+			
+			cl->pers.inventory[slugs_index] -= 2;
+			cl->pers.inventory[shells_index] -= 3;
+		}
+		case POTION_TYPE_STRENGTH: {
+			potion = FindItem("Strength Potion");
+
+			cl->pers.inventory[bullets_index] -= 2;
+		}
+		case POTION_TYPE_INSTANT_HEALTH: {
+			potion = FindItem("Instant Health Potion");
+
+			cl->pers.inventory[armor_shard_index] -= 3;
+		}
 		case POTION_TYPE_INSTANT_DAMAGE: {
-			gitem_t *item = FindItem("Instant Damage Potion");
-			int item_index = ITEM_INDEX(item);
+			potion = FindItem("Instant Damage Potion");
 			
 			cl->pers.inventory[shells_index] -= 2;
-			cl->pers.inventory[item_index] += 3;
+		}
+		case POTION_TYPE_JUMP_BOOST: {
+			potion = FindItem("Jump Boost Potion");
+
+			cl->pers.inventory[rockets_index] -= 3;
+		}
+		case POTION_TYPE_REGENERATION: {
+			potion = FindItem("Regeneration Potion");
+			
+			cl->pers.inventory[armor_shard_index] -= 3;
+			cl->pers.inventory[cells_index] -= 3;
+		}
+		case POTION_TYPE_WEAKNESS: {
+			potion = FindItem("Weakness Potion");
+
+			cl->pers.inventory[bullets_index] -= 2;
+			cl->pers.inventory[shells_index] -= 3;
+		}
+		case POTION_TYPE_WITHER: {
+			potion = FindItem("Wither Potion");
+
+			cl->pers.inventory[cells_index] -= 3;
+			cl->pers.inventory[shells_index] -= 3;
+		}
+		case POTION_TYPE_POISON: {
+			potion = FindItem("Poison Potion");
+
+			cl->pers.inventory[cells_index] -= 3;
 		}
 	}
+
+	potion_index = ITEM_INDEX(potion);
+	cl->pers.inventory[potion_index] += 3;
 }
 
 qboolean HasAtLeastOnePotion(edict_t *ent) {
