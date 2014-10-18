@@ -1109,6 +1109,8 @@ struct edict_s
 
 // Mod stuff
 
+void SpawnItemFromEnemy (gitem_t *item, edict_t *enemy, float chance);
+
 enum {
 	Status_Effect_Speed = 1 << 1,
 	Status_Effect_Slowness = 1 << 2,

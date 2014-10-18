@@ -249,6 +249,14 @@ spawn_t	spawns[] = {
 	{NULL, NULL}
 };
 
+void SpawnItemFromEnemy (gitem_t *item, edict_t *enemy, float chance) {
+	if (random() > chance) {
+		return;
+	}
+	
+	Drop_Item(enemy, item);
+}
+
 /*
 ===============
 ED_CallSpawn
