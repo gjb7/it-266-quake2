@@ -916,7 +916,7 @@ qboolean CanBrewPotion(edict_t *ent, int potion_type) {
 	gitem_t *rockets = FindItem("Rockets");
 	gitem_t *slugs = FindItem("Slugs");
 	gitem_t *grenades = FindItem("Grenades");
-	gitem_t *armor_shard = FindItem("v");
+	gitem_t *armor_shard = FindItem("Combat Armor");
 	int shells_index = ITEM_INDEX(shells);
 	int bullets_index = ITEM_INDEX(bullets);
 	int cells_index = ITEM_INDEX(cells);
@@ -963,7 +963,7 @@ void BrewPotion(edict_t *ent, int potion_type) {
 	gitem_t *rockets = FindItem("Rockets");
 	gitem_t *slugs = FindItem("Slugs");
 	gitem_t *grenades = FindItem("Grenades");
-	gitem_t *armor_shard = FindItem("c");
+	gitem_t *armor_shard = FindItem("Combat Armor");
 	int shells_index = ITEM_INDEX(shells);
 	int bullets_index = ITEM_INDEX(bullets);
 	int cells_index = ITEM_INDEX(cells);
