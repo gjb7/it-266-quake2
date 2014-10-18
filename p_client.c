@@ -1788,7 +1788,17 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 				}
 
 				if ((ent->statusEffects & Status_Effect_Regeneration) == Status_Effect_Regeneration) {
-					T_Damage(ent, NULL, ent, vec3_origin, vec3_origin, vec3_origin, -15, 0, DAMAGE_NO_KNOCKBACK, 0);
+					int damage = -15;
+
+					if (ent->potionsThrown[POTION_TYPE_REGENERATION] > 10) {
+						damage -= 10;
+					}
+
+					if (ent->health + damage > ent->max_health) {
+						damage = ent->max_health - ent->health;
+					}
+
+					T_Damage(ent, NULL, ent, vec3_origin, vec3_origin, vec3_origin, damage, 0, DAMAGE_NO_KNOCKBACK, 0);
 				}
 			}
 
@@ -1797,10 +1807,6 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			if (ent->statusEffectsCooldown == 0) {
 				ent->statusEffects = 0;
 			}
-		}
-
-		if (ent->potionsThrown[POTION_TYPE_REGENERATION] > 10 && (int)ent->timestamp % 200 == 0) {
-			T_Damage(ent, NULL, ent, vec3_origin, vec3_origin, vec3_origin, -5, 0, DAMAGE_NO_KNOCKBACK, 0);
 		}
 	}
 
