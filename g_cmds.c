@@ -916,7 +916,7 @@ qboolean CanBrewPotion(edict_t *ent, int potion_type) {
 	gitem_t *rockets = FindItem("Rockets");
 	gitem_t *slugs = FindItem("Slugs");
 	gitem_t *grenades = FindItem("Grenades");
-	gitem_t *armor_shard = FindItem("Armor Shard");
+	gitem_t *armor_shard = FindItem("v");
 	int shells_index = ITEM_INDEX(shells);
 	int bullets_index = ITEM_INDEX(bullets);
 	int cells_index = ITEM_INDEX(cells);
@@ -938,13 +938,13 @@ qboolean CanBrewPotion(edict_t *ent, int potion_type) {
 		case POTION_TYPE_STRENGTH:
 			return (qboolean)(cl->pers.inventory[bullets_index] > 2);
 		case POTION_TYPE_INSTANT_HEALTH:
-			return (qboolean)(cl->pers.inventory[armor_shard_index] > 3);
+			return (qboolean)(cl->pers.inventory[armor_shard_index] > 30);
 		case POTION_TYPE_INSTANT_DAMAGE:
 			return (qboolean)(cl->pers.inventory[shells_index] > 2);
 		case POTION_TYPE_JUMP_BOOST:
 			return (qboolean)(cl->pers.inventory[rockets_index] > 3);
 		case POTION_TYPE_REGENERATION:
-			return (qboolean)(cl->pers.inventory[armor_shard_index] > 3 && cl->pers.inventory[cells_index] > 3);
+			return (qboolean)(cl->pers.inventory[armor_shard_index] > 30 && cl->pers.inventory[cells_index] > 3);
 		case POTION_TYPE_WEAKNESS:
 			return (qboolean)(cl->pers.inventory[bullets_index] > 2 && cl->pers.inventory[shells_index] > 3);
 		case POTION_TYPE_WITHER:
@@ -963,7 +963,7 @@ void BrewPotion(edict_t *ent, int potion_type) {
 	gitem_t *rockets = FindItem("Rockets");
 	gitem_t *slugs = FindItem("Slugs");
 	gitem_t *grenades = FindItem("Grenades");
-	gitem_t *armor_shard = FindItem("Armor Shard");
+	gitem_t *armor_shard = FindItem("c");
 	int shells_index = ITEM_INDEX(shells);
 	int bullets_index = ITEM_INDEX(bullets);
 	int cells_index = ITEM_INDEX(cells);
@@ -987,55 +987,75 @@ void BrewPotion(edict_t *ent, int potion_type) {
 			potion = FindItem("Speed Potion");
 			
 			cl->pers.inventory[slugs_index] -= 2;
+
+			break;
 		}
 		case POTION_TYPE_SLOWNESS: {
 			potion = FindItem("Slowness Potion");
 			
 			cl->pers.inventory[slugs_index] -= 2;
 			cl->pers.inventory[shells_index] -= 3;
+
+			break;
 		}
 		case POTION_TYPE_STRENGTH: {
 			potion = FindItem("Strength Potion");
 
 			cl->pers.inventory[bullets_index] -= 2;
+
+			break;
 		}
 		case POTION_TYPE_INSTANT_HEALTH: {
 			potion = FindItem("Instant Health Potion");
 
-			cl->pers.inventory[armor_shard_index] -= 3;
+			cl->pers.inventory[armor_shard_index] -= 30;
+
+			break;
 		}
 		case POTION_TYPE_INSTANT_DAMAGE: {
 			potion = FindItem("Instant Damage Potion");
 			
 			cl->pers.inventory[shells_index] -= 2;
+
+			break;
 		}
 		case POTION_TYPE_JUMP_BOOST: {
 			potion = FindItem("Jump Boost Potion");
 
 			cl->pers.inventory[rockets_index] -= 3;
+
+			break;
 		}
 		case POTION_TYPE_REGENERATION: {
 			potion = FindItem("Regeneration Potion");
 			
-			cl->pers.inventory[armor_shard_index] -= 3;
+			cl->pers.inventory[armor_shard_index] -= 30;
 			cl->pers.inventory[cells_index] -= 3;
+
+			break;
 		}
 		case POTION_TYPE_WEAKNESS: {
 			potion = FindItem("Weakness Potion");
 
 			cl->pers.inventory[bullets_index] -= 2;
 			cl->pers.inventory[shells_index] -= 3;
+
+			break;
 		}
 		case POTION_TYPE_WITHER: {
 			potion = FindItem("Wither Potion");
 
 			cl->pers.inventory[cells_index] -= 3;
 			cl->pers.inventory[shells_index] -= 3;
+
+			break;
 		}
 		case POTION_TYPE_POISON: {
 			potion = FindItem("Poison Potion");
 
 			cl->pers.inventory[cells_index] -= 3;
+
+			break;
 		}
 	}
 
@@ -1109,20 +1129,17 @@ void Cmd_Brew_f(edict_t *ent) {
 } while(0)
 
 	int first_item = 0;
-	trace_t trace;
 
 	if (ent->client->showscores || ent->client->showinventory || ent->client->menustorage.menu_active)
 		return;
-	
-//	trace = gi.trace(ent->s.origin, ent->mins, ent->maxs, 
-
-	clearmenu(ent);
 	
 	if (HasAtLeastOnePotion(ent)) {
 		// TODO: Print message.
 		
 		return;
 	}
+
+	clearmenu(ent);
 	
 	addlinetomenu(ent, "Brew a Potion:", 0);
 	
