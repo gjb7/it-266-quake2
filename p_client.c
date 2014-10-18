@@ -1790,15 +1790,17 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 				if ((ent->statusEffects & Status_Effect_Regeneration) == Status_Effect_Regeneration) {
 					int damage = -15;
 
-					if (ent->potionsThrown[POTION_TYPE_REGENERATION] > 10) {
-						damage -= 10;
+					if (ent->health <= ent->max_health) {
+						if (ent->potionsThrown[POTION_TYPE_REGENERATION] > 10) {
+							damage -= 10;
+						}
+	
+						if (ent->health + damage > ent->max_health) {
+							damage = ent->max_health - ent->health;
+						}
+	
+						T_Damage(ent, NULL, ent, vec3_origin, vec3_origin, vec3_origin, damage, 0, DAMAGE_NO_KNOCKBACK, 0);
 					}
-
-					if (ent->health + damage > ent->max_health) {
-						damage = ent->max_health - ent->health;
-					}
-
-					T_Damage(ent, NULL, ent, vec3_origin, vec3_origin, vec3_origin, damage, 0, DAMAGE_NO_KNOCKBACK, 0);
 				}
 			}
 
