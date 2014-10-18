@@ -612,19 +612,5 @@ void T_ApplyStatusEffect(edict_t *inflictor, edict_t *attacker, float radius, ed
 		ent->statusEffects |= status_effect;
 		ent->statusEffectsCooldown = 1200;
 		ent->statusEffectsCooldownStep = 200;
-
-		switch (status_effect) {
-			case POTION_TYPE_SPEED:
-			case POTION_TYPE_SLOWNESS:
-			case POTION_TYPE_STRENGTH:
-			case POTION_TYPE_JUMP_BOOST:
-			case POTION_TYPE_WEAKNESS:
-				break;
-			case POTION_TYPE_WITHER:
-			case POTION_TYPE_REGENERATION:
-			case POTION_TYPE_POISON:
-				break;
-		}
-		
 	}
 }
