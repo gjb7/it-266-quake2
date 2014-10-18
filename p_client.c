@@ -1626,9 +1626,18 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			client->ps.pmove.gravity *= 0.25;
 		}
 
+		if (ent->potionsThrown[POTION_TYPE_JUMP_BOOST] > 10) {
+			client->ps.pmove.gravity *= 0.9;
+		}
+
 		if ((ent->statusEffects & Status_Effect_Speed) == Status_Effect_Speed) {
 			ucmd->forwardmove *= 1.5;
 			ucmd->sidemove *= 1.5;
+		}
+
+		if (ent->potionsThrown[POTION_TYPE_SPEED] > 10) {
+			ucmd->forwardmove *= 1.1;
+			ucmd->sidemove *= 1.1;
 		}
 
 		if ((ent->statusEffects & Status_Effect_Slowness) == Status_Effect_Slowness) {
@@ -1788,6 +1797,10 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			if (ent->statusEffectsCooldown == 0) {
 				ent->statusEffects = 0;
 			}
+		}
+
+		if (ent->potionsThrown[POTION_TYPE_REGENERATION] > 10 && (int)ent->timestamp % 200 == 0) {
+			T_Damage(ent, NULL, ent, vec3_origin, vec3_origin, vec3_origin, -5, 0, DAMAGE_NO_KNOCKBACK, 0);
 		}
 	}
 

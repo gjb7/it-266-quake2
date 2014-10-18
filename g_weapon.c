@@ -926,6 +926,7 @@ int potion_type_to_status_effect(int potion_type) {
 void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf) {
 	vec3_t		origin;
 	int			mod = MOD_POTION;
+	edict_t *hitEnt = NULL;
 
 	if (other == ent->owner)
 		return;
@@ -939,11 +940,26 @@ void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *
 	if (ent->owner->client)
 		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
 
+	while ((hitEnt = findradius(hitEnt, ent->s.origin, ent->dmg_radius)) != NULL) {
+		if (hitEnt == ent) {
+			ent->owner->potionsThrown[ent->spawnflags] += 1;
+
+			break;
+		}
+	}
+
 	switch (ent->spawnflags) {
-		case POTION_TYPE_INSTANT_HEALTH:
-			T_RadiusDamageNoKnockback(ent, ent->owner, -25.0, ent->enemy, ent->dmg_radius, mod);
+		case POTION_TYPE_INSTANT_HEALTH: {
+			float damage = -25.0;
+
+			if (ent->owner->potionsThrown[ent->spawnflags] > 10) {
+				damage -= 10.0;
+			}
+
+			T_RadiusDamageNoKnockback(ent, ent->owner, damage, ent->enemy, ent->dmg_radius, mod);
 			
 			break;
+		}
 		case POTION_TYPE_INSTANT_DAMAGE:
 			T_RadiusDamageNoKnockback(ent, ent->owner, 35.0, ent->enemy, ent->dmg_radius, mod);
 
