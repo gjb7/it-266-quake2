@@ -507,7 +507,7 @@ void player_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 		LookAtKiller (self, inflictor, attacker);
 		self->client->ps.pmove.pm_type = PM_DEAD;
 		ClientObituary (self, inflictor, attacker);
-		TossClientWeapon (self);
+		// TossClientWeapon (self);
 		if (deathmatch->value)
 			Cmd_Help_f (self);		// show scores
 
@@ -518,6 +518,21 @@ void player_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 			if (coop->value && itemlist[n].flags & IT_KEY)
 				self->client->resp.coop_respawn.inventory[n] = self->client->pers.inventory[n];
 			self->client->pers.inventory[n] = 0;
+		}
+
+		/* Yes, this is stupid ugly. I don't care. I just want to get this project done ASAP. */
+		if (!SpawnItemFromEnemy(FindItem("bullets"), self, 0.25)) {
+			if (!SpawnItemFromEnemy(FindItem("Shells"), self, 0.1)) {
+				if (!SpawnItemFromEnemy(FindItem("Cells"), self, 0.05)) {
+					if (!SpawnItemFromEnemy(FindItem("Rockets"), self, 0.1)) {
+						if (!SpawnItemFromEnemy(FindItem("Slugs"), self, 0.1)) {
+							if (!SpawnItemFromEnemy(FindItem("Grenades"), self, 0.05)) {
+								SpawnItemFromEnemy(FindItem("Armor Shard"), self, 0.01);
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 

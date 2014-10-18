@@ -945,7 +945,7 @@ void potion_explode (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *
 			
 			break;
 		case POTION_TYPE_INSTANT_DAMAGE:
-			T_RadiusDamageNoKnockback(ent, ent->owner, 25.0, ent->enemy, ent->dmg_radius, mod);
+			T_RadiusDamageNoKnockback(ent, ent->owner, 35.0, ent->enemy, ent->dmg_radius, mod);
 
 			break;
 		case POTION_TYPE_SPEED:

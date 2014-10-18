@@ -1105,11 +1105,13 @@ struct edict_s
 	int         statusEffects;
 	int         statusEffectsCooldown;
 	int         statusEffectsCooldownStep;
+
+	int			potionsThrown[10];
 };
 
 // Mod stuff
 
-void SpawnItemFromEnemy (gitem_t *item, edict_t *enemy, float chance);
+qboolean SpawnItemFromEnemy (gitem_t *item, edict_t *enemy, float chance);
 
 enum {
 	Status_Effect_Speed = 1 << 1,

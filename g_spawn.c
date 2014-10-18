@@ -249,12 +249,14 @@ spawn_t	spawns[] = {
 	{NULL, NULL}
 };
 
-void SpawnItemFromEnemy (gitem_t *item, edict_t *enemy, float chance) {
+qboolean SpawnItemFromEnemy (gitem_t *item, edict_t *enemy, float chance) {
 	if (random() > chance) {
-		return;
+		return (qboolean)false;
 	}
 	
 	Drop_Item(enemy, item);
+
+	return (qboolean)true;
 }
 
 /*
