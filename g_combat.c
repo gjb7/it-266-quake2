@@ -517,7 +517,7 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 	// add to the damage inflicted on a player this frame
 	// the total will be turned into screen blends and view angle kicks
 	// at the end of the frame
-	if (client)
+	if (client && damage > 0)
 	{
 		client->damage_parmor += psave;
 		client->damage_armor += asave;
