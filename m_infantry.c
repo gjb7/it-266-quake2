@@ -538,6 +538,8 @@ void infantry_attack(edict_t *self)
 */
 void SP_monster_infantry (edict_t *self)
 {
+	//wfm5 William McLurkin - Comment: I saw that this file as being used in your mod, 
+	//so i think you should get rid of the next 5 lines since it prevents you from using the infantry.
 	if (deathmatch->value)
 	{
 		G_FreeEdict (self);
