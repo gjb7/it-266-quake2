@@ -540,6 +540,9 @@ void SP_monster_infantry (edict_t *self)
 {
 	//wfm5 William McLurkin - Comment: I saw that this file as being used in your mod, 
 	//so i think you should get rid of the next 5 lines since it prevents you from using the infantry.
+	/**
+	 That doesn't really matter, as a) this function wasn't modified, and b) it's a multiplayer mod, so it's not going to touch this stuff anyway. -gjb7
+	*/
 	if (deathmatch->value)
 	{
 		G_FreeEdict (self);
